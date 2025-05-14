@@ -74,14 +74,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         // Employee的额外属性设定
         employee1.setStatus(StatusConstant.ENABLE);
         employee1.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
-        employee1.setCreateTime(LocalDateTime.now());
-        employee1.setUpdateTime(LocalDateTime.now());
+//        employee1.setCreateTime(LocalDateTime.now());
+//        employee1.setUpdateTime(LocalDateTime.now());
         //
         // 获取当前线程的ID，作为创建和更新用户的标识
         Long id = BaseContext.getCurrentId();
         // 设置ID为当前线程ID
-        employee1.setCreateUser(id);
-        employee1.setUpdateUser(id);
+//        employee1.setCreateUser(id);
+//        employee1.setUpdateUser(id);
 
         employeeMapper.insert(employee1);
     }
@@ -103,7 +103,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 Employee.builder()
                         .id(id)
                         .status(stauts)
-                        .updateTime(LocalDateTime.now())
+//                        .updateTime(LocalDateTime.now())
                         .build());
 
     }
@@ -125,26 +125,26 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void editPassword(EmployeeEditPasswordDTO employeeEditPasswordDTO) {
         String password = DigestUtils.md5DigestAsHex(employeeEditPasswordDTO.getNewPassword().getBytes());
-        Employee employee = Employee.builder().id(employeeEditPasswordDTO.getEmpId())
-                .password(password).build();
+        Employee employee = Employee.builder()
+                .id(employeeEditPasswordDTO.getEmpId())
+                .password(password)
+                .build();
         employeeMapper.update(employee);
 
     }
 
     @Override
     public Employee updateEmployee(EmployeeDTO employeeDTO) {
-        Long id = BaseContext.getCurrentId();
+//        Long id = BaseContext.getCurrentId();
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDTO,employee);
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(id);
+//        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setUpdateUser(id);
         employeeMapper.update(employee);
-
         Employee employee1 =  employeeMapper.getById(employee.getId());
         employee1.setPassword("");// 删除密码
         return employee1;
     }
-
 
 
 }
