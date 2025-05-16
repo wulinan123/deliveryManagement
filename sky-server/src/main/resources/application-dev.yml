@@ -11,6 +11,10 @@ sky:
     accessKey: Bl3XwELJJQvyraSDcO4t
     secretKey: nJN7cJQ11JZRlHCXpJltA5T6ZsDv3GtNGXY8Yh4A
     bucketName: ay01
+  redis:
+    host: 10.62.243.141
+    port: 6379
+    database: 0
 
 
 server:
