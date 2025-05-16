@@ -30,6 +30,7 @@ public class ShopServiceImpl implements ShopService {
 
      @Override
      public void setStatus(String status){
+          log.info("营业状态设置为：{}",status);
           redisTemplate.opsForValue().set(KEY,status);
      }
 
