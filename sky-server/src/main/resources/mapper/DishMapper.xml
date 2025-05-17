@@ -15,7 +15,7 @@
             <if test="name!=null">
                 name = #{name},
             </if>
-            <if test="categoryId !=null">
+            <if test="categoryId != null">
                 category_id = #{categoryId},
             </if>
             <if test="price !=null">
