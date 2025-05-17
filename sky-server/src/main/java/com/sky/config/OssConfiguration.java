@@ -14,6 +14,7 @@ public class OssConfiguration {
     @Bean
     @ConditionalOnMissingBean //单例
     public MinioUtil minioUtil(MinioProperties minioProperties){
+        log.info("启动oss配置");
         return new MinioUtil(minioProperties.getEndpoint(),
                             minioProperties.getAccessKey(),
                             minioProperties.getSecretKey(),

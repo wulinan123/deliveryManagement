@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.FlavorMapper">
+
+    <insert id="insertBatch" ><!-- 主键回显 -->
+        INSERT INTO dish_flavor (dish_id, name, value)
+        Values
+            <foreach collection="flavorsList" item="t" separator=",">
+                (#{t.dishId},#{t.name},#{t.value})
+            </foreach>
+    </insert>
+</mapper>

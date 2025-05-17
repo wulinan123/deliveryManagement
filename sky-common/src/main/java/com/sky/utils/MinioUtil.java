@@ -29,7 +29,7 @@ public class MinioUtil {
                     try {
                         // 创建MinioClient实例
                         // 设置使用AWS签名版本4
-                        System.setProperty("com.amazonaws.services.s3.enableV4", "true");
+//                        System.setProperty("com.amazonaws.services.s3.enableV4", "true");
                         MinioClient minioClient = MinioClient.builder()
                                 .endpoint(endpoint)
                                 .credentials(accessKey, secretKey)
@@ -51,10 +51,12 @@ public class MinioUtil {
 
                         // 文件访问路径规则 https://BucketName.Endpoint/ObjectName
 
-                        String fileUrl = "https://" +
+                        String fileUrl = "http://" +
 //                                bucketName +
 //                                "." +
-                                endpoint.replace("http://", "").replace("https://", "") +
+                                endpoint.replace("http://", "").replace("http://", "") +
+                                "/" +
+                                bucketName +
                                 "/" +
                                 objectName;
                         log.info("文件上传到: {}", fileUrl);

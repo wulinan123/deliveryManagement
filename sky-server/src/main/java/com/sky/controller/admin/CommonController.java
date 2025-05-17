@@ -24,12 +24,17 @@ public class CommonController {
 
     @PostMapping("/upload")
     @ApiOperation("上传文件")
-    public Result<String > upload(MultipartFile file) throws IOException {
+    public Result<String > upload(MultipartFile file)  {
         String fileName = file.getOriginalFilename();
-        String extension = fileName.substring(fileName.lastIndexOf("."));
-        String ObjectName = UUID.randomUUID().toString() + extension;
-        log.info("上传文件：{}",file.getName());
-        String url = minioUtil.upload(file.getBytes(),ObjectName);
+        String extension = fileName.substring(fileName.lastIndexOf("."));//截取文件后缀
+        String ObjectName = UUID.randomUUID().toString() + extension; // 使用 UUID+后缀的格式保存
+        log.info("上传文件：{}",file.getOriginalFilename());
+        String url = null;
+        try {
+            url = minioUtil.upload(file.getBytes(),ObjectName);
+        } catch (IOException e) {
+            log.error("上传错误");
+        }
         return Result.success(url);//TODO
     }
 }
