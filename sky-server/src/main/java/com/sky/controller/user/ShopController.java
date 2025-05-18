@@ -23,7 +23,8 @@ public class ShopController {
 
     @GetMapping("/status")
     public Result getStatus(){
-        return Result.success(shopService.getStatus());
+        return Result.success(Integer.valueOf(shopService.getStatus()));
     }
+
 
 }

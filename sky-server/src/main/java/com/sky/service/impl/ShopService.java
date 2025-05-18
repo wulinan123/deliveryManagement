@@ -6,6 +6,6 @@ package com.sky.service.impl;
  **/
 public interface ShopService {
 
-     String getStatus();
-    void setStatus(String status);
+    String  getStatus();
+    void setStatus(String  status);
 }

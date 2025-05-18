@@ -10,4 +10,10 @@
                 (#{t.dishId},#{t.name},#{t.value})
             </foreach>
     </insert>
+    
+    
+    <select id="getByDishId" resultType="com.sky.entity.DishFlavor">
+        SELECT * FROM dish_flavor
+        WHERE id = #{id}
+    </select>
 </mapper>

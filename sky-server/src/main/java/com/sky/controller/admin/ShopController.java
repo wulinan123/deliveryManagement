@@ -23,11 +23,11 @@ public class ShopController {
 
     @GetMapping("/status")
     public Result getStatus(){
-        return Result.success(shopService.getStatus());
+        return Result.success(Integer.valueOf(shopService.getStatus()));
     }
 
     @PutMapping("/{status}")
-    public Result setStatus(@PathVariable String status){
+    public Result setStatus(@PathVariable String  status){
         shopService.setStatus(status);
         return Result.success();
     }

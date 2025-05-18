@@ -52,7 +52,7 @@ public class SetMealController {
     @ApiOperation("分页查询")
     public Result getSetMealByPage(@RequestBody SetmealPageQueryDTO setmealPageQueryDTO){
         return Result.success(
-                service.getgetSetMealByPage(setmealPageQueryDTO)
+                service.getSetMealByPage(setmealPageQueryDTO)
         );
     }
 
