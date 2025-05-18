@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.SetMealMapper">
+
+    <!-- 插入操作：向 setmeal 表中插入一条记录，主键回显 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO setmeal (category_id, name, price, description, image)
+        VALUES (#{categoryId},#{name},#{price},#{description},#{image})
+    </insert>
+
+    <!-- 更新操作：根据 id 更新 setmeal 表中的记录 -->
+    <update id="update" parameterType="com.sky.entity.Setmeal">
+        UPDATE setmeal
+        <set>
+            <!-- 如果 categoryId 不为空，则更新 category_id 字段 -->
+            <if test="categoryId!=null">
+                category_id=#{categoryId},
+            </if>
+            <!-- 如果 name 不为空，则更新 name 字段 -->
+            <if test="name!=null">
+                name=#{name},
+            </if>
+            <!-- 如果 price 不为空，则更新 price 字段 -->
+            <if test="price!=null">
+                price=#{price},
+            </if>
+            <!-- 如果 description 不为空，则更新 description 字段 -->
+            <if test="description!=null">
+                description=#{description},
+            </if>
+            <!-- 如果 image 不为空，则更新 image 字段 -->
+            <if test="image!=null">
+                image=#{image},
+            </if>
+            <if test="status!=null">
+                status=#{status},
+            </if>
+        </set>
+        WHERE id =#{id}
+    </update>
+
+    <!-- 删除操作：根据 id 删除 setmeal 表中的记录 -->
+    <delete id="delete">
+        DELETE FROM setmeal WHERE id =#{id}
+    </delete>
+
+    <!-- 分页查询操作：根据条件查询 setmeal 表及其关联的 category 表 -->
+    <select id="selectByPage" resultType="com.sky.vo.SetmealVO">
+        SELECT setmeal.* ,category.name
+        FROM setmeal
+        LEFT OUTER JOIN category
+        ON setmeal.category_id = category.id
+        <where>
+            <!-- 如果 name 不为空，则按名称模糊查询 -->
+            <if test="name!=null">
+                and setmeal.name like concat('%' #{name} '%')
+            </if>
+            <!-- 如果 status 不为空，则按状态查询 -->
+            <if test="status!=null">
+                and setmeal.status = #{status}
+            </if>
+            <!-- 如果 categoryId 不为空，则按分类 ID 查询 -->
+            <if test="categoryId!=null">
+                and setmeal.category_id = #{categoryId}
+            </if>
+        </where>
+        ORDER BY setmeal.update_time desc
+    </select>
+
+</mapper>

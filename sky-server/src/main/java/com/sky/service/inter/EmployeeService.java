@@ -1,4 +1,4 @@
-package com.sky.service;
+package com.sky.service.inter;
 
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeEditPasswordDTO;

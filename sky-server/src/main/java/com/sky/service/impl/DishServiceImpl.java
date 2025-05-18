@@ -9,7 +9,7 @@ import com.sky.entity.DishFlavor;
 import com.sky.mapper.DishMapper;
 import com.sky.mapper.FlavorMapper;
 import com.sky.result.PageResult;
-import com.sky.service.DishService;
+import com.sky.service.inter.DishService;
 import com.sky.vo.DishVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -47,7 +47,6 @@ public class DishServiceImpl implements DishService {
         if(flavorsList!=null && !flavorsList.isEmpty()) {
             flavorsList.forEach(tmp->{tmp.setDishId(dishId);});
             flavorMapper.insertBatch(flavorsList);
-
         }
 
 
