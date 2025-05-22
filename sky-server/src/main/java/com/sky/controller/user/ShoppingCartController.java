@@ -1,8 +1,11 @@
 package com.sky.controller.user;
 
+import com.sky.dto.ShoppingCartDTO;
+import com.sky.result.Result;
+import com.sky.service.inter.ShoppingCartService;
 import io.swagger.annotations.Api;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 采用Redis缓存菜品，减少数据库操作
@@ -16,5 +19,26 @@ import org.springframework.web.bind.annotation.RestController;
 @Api("购物车接口")
 public class ShoppingCartController {
 
+    @Autowired
+    private ShoppingCartService service;
+    @PostMapping("/add")
+    public Result add(@RequestBody ShoppingCartDTO shoppingCartDTO){
+        service.add(shoppingCartDTO);
+        return Result.success("添加购物车成功");
+    }
+    @PostMapping("/sub")
+    public Result sub(@RequestBody ShoppingCartDTO shoppingCartDTO){
+        service.sub(shoppingCartDTO);
+        return Result.success("修改完成");
+    }
 
+    @GetMapping("/list")
+    public Result list(){
+        return null;
+    }
+
+    @DeleteMapping("/clean")
+    public Result clean(){
+        return null;
+    }
 }

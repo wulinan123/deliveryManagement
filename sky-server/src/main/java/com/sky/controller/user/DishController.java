@@ -37,17 +37,14 @@ public class DishController {
 
         String key = "dish_"  + categoryId;
         List<DishVO> list = (List<DishVO>)redisTemplate.opsForValue().get(key);
-        if(list!=null && !list.isEmpty()){
-            return Result.success(list);
-        }
-        else {
+        if (list == null || list.isEmpty()) {
             Dish dish = new Dish();
             dish.setCategoryId(categoryId);
             dish.setStatus(StatusConstant.ENABLE);//查询起售中的菜品
             list = dishService.listWithFlavor(dish);
-            redisTemplate.opsForValue().set(key,list);
-            return Result.success(list);
+            redisTemplate.opsForValue().set(key, list);
         }
+        return Result.success(list);
     }
 
 }

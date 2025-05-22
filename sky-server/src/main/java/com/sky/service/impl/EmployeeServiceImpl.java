@@ -22,6 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+/**
+ * 员工业务逻辑实现类
+ * 负责员工登录、新增、分页查询、状态更新、信息修改等核心业务功能
+ */
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
@@ -29,10 +33,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeMapper employeeMapper;
 
     /**
-     * 员工登录
-     *
-     * @param employeeLoginDTO
-     * @return
+     * 员工登录验证
+     * @param employeeLoginDTO 包含用户名和密码的登录信息DTO
+     * @return 登录成功的员工实体对象
+     * @throws AccountNotFoundException 用户名不存在时抛出
+     * @throws PasswordErrorException 密码错误时抛出
+     * @throws AccountLockedException 账号被锁定时抛出
      */
     public Employee login(EmployeeLoginDTO employeeLoginDTO) {
         String username = employeeLoginDTO.getUsername();
@@ -65,6 +71,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee;
     }
 
+    /**
+     * 新增员工信息
+     * @param employee 包含员工基本信息的DTO（不包含密码和状态）
+     */
     @Override
     public void save(EmployeeDTO employee) {
         Employee  employee1= new Employee();
@@ -84,6 +94,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeMapper.insert(employee1);
     }
 
+    /**
+     * 员工信息分页查询
+     * @param employeePageQueryDTO 包含分页参数和查询条件的DTO
+     * @return 分页结果对象（包含总记录数和当前页数据）
+     */
     @Override
     public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
         // 计算查询参数，返回到 Mapper
@@ -95,6 +110,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         return pageResult;
     }
 
+    /**
+     * 更新员工账号状态（启用/禁用）
+     * @param stauts 状态值（1-启用，0-禁用）
+     * @param id 要更新状态的员工ID
+     */
     @Override
     public void updateStatus(Integer stauts, Long id) {
         employeeMapper.update(
@@ -105,12 +125,23 @@ public class EmployeeServiceImpl implements EmployeeService {
                         .build());
 
     }
+    /**
+     * 根据ID查询员工详细信息
+     * @param id 员工ID
+     * @return 对应的员工实体对象
+     */
     @Override
     public Employee getById(Long id) {
         Employee employee = employeeMapper.getById(id);
         return employee;
     }
 
+    /**
+     * 验证员工密码是否正确
+     * @param empId 员工ID
+     * @param password 待验证的原始密码（明文）
+     * @return 验证结果（true-正确，false-错误）
+     */
     @Override
     public boolean verifyPassword(long empId, String password) {
         Employee employee = employeeMapper.getById(empId);
@@ -120,6 +151,10 @@ public class EmployeeServiceImpl implements EmployeeService {
             return false;
     }
 
+    /**
+     * 修改员工登录密码
+     * @param employeeEditPasswordDTO 包含员工ID和新密码的DTO
+     */
     @Override
     public void editPassword(EmployeeEditPasswordDTO employeeEditPasswordDTO) {
         String password = DigestUtils.md5DigestAsHex(employeeEditPasswordDTO.getNewPassword().getBytes());
@@ -131,6 +166,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     }
 
+    /**
+     * 更新员工基本信息（不包含密码）
+     * @param employeeDTO 包含更新信息的员工DTO（需包含ID）
+     * @return 更新后的员工实体对象（已过滤密码字段）
+     */
     @Override
     public Employee updateEmployee(EmployeeDTO employeeDTO) {
 //        Long id = BaseContext.getCurrentId();
